@@ -21,9 +21,6 @@ public class UserService {
 
     public void createUser(String login, String password) {
         User user = new User(login, password);
-        if (!login.isBlank() && !password.isBlank()) {
-            throw new IllegalArgumentException();
-        }
         if (!userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword()).isEmpty()) {
             throw new UserNonUniqueException();
         }
@@ -36,6 +33,12 @@ public class UserService {
         }else {
             return false;
         }
+    }
+    public boolean isCorrectedLoginOrPassword(String login , String password){
+        if (!login.isBlank() && !password.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+        return true;
     }
 
 }

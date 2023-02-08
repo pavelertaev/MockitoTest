@@ -12,7 +12,7 @@ public class UserRepository {
     }
 
     public Collection<User> getAllUser(){
-        return new ArrayList<>(users);
+        return users;
     }
 
     public Optional<User> getUserByLogin(String login){
