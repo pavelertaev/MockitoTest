@@ -21,7 +21,7 @@ public class UserService {
 
     public void createUser(String login, String password) {
         User user = new User(login, password);
-        if (!userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword()).isEmpty()) {
+        if (isCorrectedLoginOrPassword(login, password)&&!userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword()).isEmpty()) {
             throw new UserNonUniqueException();
         }
         userRepository.addUser(user);
