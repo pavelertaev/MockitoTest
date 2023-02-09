@@ -50,7 +50,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("When Login is empty, then Service throw IllegalArgException")
     void notCorrectPassword() {
-        Assertions.assertThrows(IllegalArgumentException.class,()->userService.createUser("test", "test"));
+        Assertions.assertThrows(IllegalArgumentException.class,()->userService.createUser(null, "test"));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class UserServiceTest {
     void checkUserFromRepository() {
         Assertions.assertNotNull(userRepository);
         Mockito.when(userRepository.getUserByLoginAndPassword(Mockito.anyString(),Mockito.anyString())).thenReturn(Optional.of(new User("test", "test")));
-        Assertions.assertTrue(userService.isContainsUser("test", "test"));
+        Assertions.assertTrue(userService.isContainsUser(new User("user","user")));
     }
 
 }

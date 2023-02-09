@@ -1,5 +1,6 @@
 package org.example;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -40,62 +41,34 @@ public class UserRepositoryTest {
 
     @Test
     public void searchUserByLogin(){
-        UserRepository userRepository = new UserRepository();
-        User user = new User("pavel","123");
-        User user1 = new User("ant","1234");
-        userRepository.addUser(user);
-        userRepository.addUser(user1);
-        Optional<User> expected = userRepository.getUserByLogin(user.getLogin());
-        Optional<User> actual = userRepository.getUserByLogin(user.getLogin());
-        assertEquals(expected,actual);
+        User userTest = new User("test", "test");
+        userRepository.addUser(userTest);
+        User user = userRepository.getUserByLogin("test").get();
+        Assertions.assertEquals(userTest, user);
 
     }
     @Test
-    public void searchUserByLoginIfUserNotFound(){
-        UserRepository userRepository = new UserRepository();
-        User user = new User("pavel","123");
-        User user1 = new User("ant","1234");
-        userRepository.addUser(user);
-        userRepository.addUser(user1);
-        Optional<User> expected = userRepository.getUserByLogin(user.getLogin());
-
-        assertEquals(expected,new User("123","123"));
-    }
-
-    @Test
-    public void searchUserByLoginAndPassword(){
-        UserRepository userRepository = new UserRepository();
-        User user = new User("pavel","123");
-        User user1 = new User("ant","1234");
-        userRepository.addUser(user);
-        userRepository.addUser(user1);
-        Optional<User> expected = userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword());
-        Optional<User> actual = userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword());
-        assertEquals(expected,actual);
+    void getNullUserByLogin() {
+        User userTest = new User("test", "test");
+        userRepository.addUser(userTest);
+        User user = userRepository.getUserByLogin("test2").orElse(null);
+        Assertions.assertNull(user);
     }
 
     @Test
     public void searchUserByPasswordNotEqualsLogin(){
-        UserRepository userRepository = new UserRepository();
-        User user = new User("pavel","123");
-        User user1 = new User("ant","1234");
-        userRepository.addUser(user);
-        userRepository.addUser(user1);
-        Optional<User> expected = userRepository.getUserByLoginAndPassword("123", user.getPassword());
-        Optional<User> actual = userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword());
-        assertEquals(expected,actual);
+        User userTest = new User("test", "test");
+        userRepository.addUser(userTest);
+        User user = userRepository.getUserByLoginAndPassword("NotTest", "test").orElse(null);
+        Assertions.assertNull(user);
     }
 
     @Test
     public void searchUserByLoginNotEqualsPassword(){
-        UserRepository userRepository = new UserRepository();
-        User user = new User("pavel","123");
-        User user1 = new User("ant","1234");
-        userRepository.addUser(user);
-        userRepository.addUser(user1);
-        Optional<User> expected = userRepository.getUserByLoginAndPassword(user.getLogin(),"234");
-        Optional<User> actual = userRepository.getUserByLoginAndPassword(user.getLogin(), user.getPassword());
-        assertEquals(expected,actual);
+        User userTest = new User("test", "test");
+        userRepository.addUser(userTest);
+        User user = userRepository.getUserByLoginAndPassword("test", "NoTest").orElse(null);
+        Assertions.assertNull(user);
     }
 
 
